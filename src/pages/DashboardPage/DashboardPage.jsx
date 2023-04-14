@@ -30,8 +30,6 @@ const DashboardPage = () => {
   return (
     <div className="min-h-[100vh] flex flex-col pt-24">
       <div className="charts max-w-max flex gap-6">
-        <OperatorModel />
-        <DeviceModal />
       </div>
     </div>
   );

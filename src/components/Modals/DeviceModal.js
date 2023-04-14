@@ -1,6 +1,36 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 
 const DeviceModal = () => {
+  const [info, setinfo] = useState({});
+  const handleChange = (e) => {
+  setinfo((prev) => ({...prev, [e.target.name] : e.target.value}))
+  console.log(info)
+}
+const config = {
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+};
+  const axiosInstance = axios.create({
+    baseURL: "https://api.viznx.in/api",
+})
+const handleSubmit = async e => {
+  e.preventDefault();
+  try {
+    console.log(info)
+    const newOperator = {
+      ...info
+    }
+    const res = await axiosInstance.post("/admin/create-device",newOperator, config)
+
+    console.log(newOperator)
+    
+  } catch (error) {
+    console.log(error)
+  }
+}
   return (
     <>
       {/* The button to open modal */}
@@ -26,16 +56,37 @@ const DeviceModal = () => {
               <input
                 className="input w-full max-w-xs"
                 type="text"
-                placeholder="Name"
+                placeholder="deviceId"
+                name="deviceId"
+                onChange={handleChange}
+
+              />
+              <input
+                className="input w-full max-w-xs"
+                type="text"
+                placeholder="name"
+                name="name"
+                onChange={handleChange}
+
+              />
+              <input
+                className="input w-full max-w-xs"
+                type="text"
+                placeholder="password"
+                name="password"
+                onChange={handleChange}
+
               />
               <input
                 className="input w-full max-w-xs"
                 type="text"
                 placeholder="Place"
+                name="location"
+                onChange={handleChange}
               />
               <div className="btn-section flex">
                 <button
-                  type="submit"
+                  type="submit"  onClick={handleSubmit}
                   className="btn min-w-[100px] p-[10px_60px] bg-linkColor  border-0 hover:bg-[#BC3FFF]"
                 >
                   Add
